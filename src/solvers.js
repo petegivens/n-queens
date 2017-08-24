@@ -114,8 +114,7 @@ window.findNQueensSolution = function(n) {
       return rowsMatrix[rowIndex];
     });
     var testBoard = new Board(testMatrix);
-    if (!testBoard.hasAnyQueensConflicts()) {
-      console.log('if statement triggered');
+    if (!testBoard.hasAnyMajorDiagonalConflicts() && !testBoard.hasAnyMinorDiagonalConflicts()) {
       solution = testMatrix;
     }
   });
@@ -138,7 +137,8 @@ window.countNQueensSolutions = function(n) {
       return rowsMatrix[rowIndex];
     });
     var testBoard = new Board(testMatrix);
-    if (!testBoard.hasAnyQueensConflicts()) {
+    // if (!testBoard.hasAnyQueensConflicts()) {
+    if (!testBoard.hasAnyMajorDiagonalConflicts() && !testBoard.hasAnyMinorDiagonalConflicts()) {
       solutionCount++;
     }
   });
