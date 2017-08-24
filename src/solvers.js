@@ -45,19 +45,14 @@ window.generatePermutations = function(array, n) {
     array[pos2] = temp;
   };
   var permutations = [];
-  var permute = function (array, n) {
-    n = n || array.length; // set n default to array.length
+  var permute = function (array, n = array.length) {
     if (n === 1) {
       var arr = array.slice(0);
       permutations.push(arr);
     } else {
       for (var i = 1; i <= n; i += 1) {
         permute(array, n - 1);
-        if (n % 2) {
-          var j = 1;
-        } else {
-          var j = i;
-        }
+        var j = (n % 2) ? 1 : i;
         swap(array, j - 1, n - 1); // -1 to account for javascript zero-indexing
       }
     }
@@ -67,20 +62,16 @@ window.generatePermutations = function(array, n) {
 };
 
 
+
+
 window.findNRooksSolution = function(n) {
   var solution = undefined; //solution needs to be an array of arrays, e.g. [[1,0,0], [0,1,0], [0,0,1]];
   var rowsMatrix = generateAllPossibleRows(n);
-  var permList = generatePermutations(_.range(n));
+  return rowsMatrix;
+  // var permList = generatePermutations(_.range(n));
 
-  permList.forEach(function(permutation) {
-    var testBoard = permutation.map(function(rowIndex) {
-      return rowsMatrix[rowIndex];
-    });
-    solution = testBoard;
-  });
-
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  return solution;
+  // console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  // return solution;
   //should return a matrix (2-D array) of the solution board
 };
 
@@ -90,13 +81,8 @@ window.countNRooksSolutions = function(n) {
   // var solution = undefined; //solution needs to be an array of arrays, e.g. [[1,0,0], [0,1,0], [0,0,1]];
   var rowsMatrix = generateAllPossibleRows(n);
   var permList = generatePermutations(_.range(n));
+  solutionCount = permList.length;
 
-  permList.forEach(function(permutation) {
-    var testBoard = permutation.map(function(rowIndex) {
-      return rowsMatrix[rowIndex];
-    });
-    solutionCount++;
-  });
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
@@ -104,6 +90,27 @@ window.countNRooksSolutions = function(n) {
 
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
+// 2 callbacks:
+
+// for single queen, check for conflicts
+// if no conflicts, return testBoard;
+// for multiple queens, check for conflicts
+// if no conflicts, count++
+
+window.findSolution = function(n, callback) {
+  for (var i = 0; i < permList.length; i++) {
+    var testBoard = permList[i].map(function(rowIndex) {
+      return rowsMatrix[rowIndex];
+    });
+    callback(testBoard);
+  }
+};
+
+var findNQueenCallback = function (board) {
+
+};
+
+
 window.findNQueensSolution = function(n) {
   var solution = {n: n};
   var rowsMatrix = generateAllPossibleRows(n);
