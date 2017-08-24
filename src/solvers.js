@@ -13,13 +13,17 @@
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
-
-
+// At very beginning, create an an array of arrays that resembles identity matrix.
+// E.G. for 3x3 matrix, [[100], [010], [001]];
+// create a function that creates an n-length array containing all the possible
+// combinations of indexes. E.G. Take n digits and give me every way they could be shuffled.
 window.findNRooksSolution = function(n) {
   var solution = undefined; //fixme
 
+
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
+  //should return a matrix (2-D array) of the solution board
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
