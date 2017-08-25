@@ -11,14 +11,6 @@
 // take a look at solversSpec.js to see what the tests are expecting
 
 
-// return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
-
-// At very beginning, create an an array of arrays that resembles identity matrix.
-// E.G. for 3x3 matrix, [[100], [010], [001]];
-// create a function that creates an n-length array containing all the possible
-// combinations of indexes. E.G. Take n digits and give me every way they could be shuffled.
-
-
 // creates all possible rows with one '1';
 window.generateAllPossibleRows = function(n) {
   var matrix = [];
@@ -35,7 +27,6 @@ window.generateAllPossibleRows = function(n) {
   }
   return matrix;
 };
-
 
 // creates all possible combinations of rows
 window.generatePermutations = function(array, n) {
@@ -61,55 +52,25 @@ window.generatePermutations = function(array, n) {
   return permutations;
 };
 
-
-
-
+// return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //solution needs to be an array of arrays, e.g. [[1,0,0], [0,1,0], [0,0,1]];
-  var rowsMatrix = generateAllPossibleRows(n);
-  return rowsMatrix;
-  // var permList = generatePermutations(_.range(n));
-
-  // console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  // return solution;
-  //should return a matrix (2-D array) of the solution board
+  var solution = generateAllPossibleRows(n);
+  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  return solution;
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = 0; //fixme
-  // var solution = undefined; //solution needs to be an array of arrays, e.g. [[1,0,0], [0,1,0], [0,0,1]];
   var rowsMatrix = generateAllPossibleRows(n);
   var permList = generatePermutations(_.range(n));
-  solutionCount = permList.length;
-
+  var solutionCount = permList.length;
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
 
-
-
-// return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
-// 2 callbacks:
-
-// for single queen, check for conflicts
-// if no conflicts, return testBoard;
-// for multiple queens, check for conflicts
-// if no conflicts, count++
-
-window.findSolution = function(n, callback) {
-  for (var i = 0; i < permList.length; i++) {
-    var testBoard = permList[i].map(function(rowIndex) {
-      return rowsMatrix[rowIndex];
-    });
-    callback(testBoard);
-  }
-};
-
-var findNQueenCallback = function (board) {
-
-};
-
+window.diagonalTests = function(board) {
+  return !board.hasAnyMajorDiagonalConflicts && !board.hasAnyMinorDiagonalConflicts;
+}
 
 window.findNQueensSolution = function(n) {
   var solution = {n: n};
@@ -129,9 +90,9 @@ window.findNQueensSolution = function(n) {
   return solution;
 };
 
-
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
+  // var solutionCount = n === 0 ? 1 : 0;
   var solutionCount = 0;
   if (n === 0) {
     return 1;
@@ -144,7 +105,6 @@ window.countNQueensSolutions = function(n) {
       return rowsMatrix[rowIndex];
     });
     var testBoard = new Board(testMatrix);
-    // if (!testBoard.hasAnyQueensConflicts()) {
     if (!testBoard.hasAnyMajorDiagonalConflicts() && !testBoard.hasAnyMinorDiagonalConflicts()) {
       solutionCount++;
     }
